@@ -146,7 +146,7 @@
 
   <!-- Start arm planning and pick and place pipeline -->
   <include file="$(find pr2_moveit_config)/launch/move_group.launch"/>
-  <include file="$(find pr2_gripper_sensor_action pr2_gripper_sensor_actions.launch"/>
+  <include file="$(find pr2_gripper_sensor_action)/launch/pr2_gripper_sensor_actions.launch"/>
   <include file="$(find pr2_picknplace)/launch/pick_place.launch"/>  
 
 </launch>
