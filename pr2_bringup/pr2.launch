@@ -78,7 +78,7 @@
   <include file="$(find pr2_bringup)/config/l_forearm_cam.launch" />
 
   <!-- Sound -->
-  <node pkg="sound_play" type="soundplay_node.py" machine="c1" name="sound_play" />
+  <node pkg="sound_play" type="soundplay_node.py" machine="pr2-head" name="sound_play" />
 
   <!-- Runtime Diagnostics and Motor Trace Logging -->
   <node name="runtime_logger" machine="c1"  pkg="rosbag" type="record"
@@ -137,5 +137,16 @@
   <group if="$(optenv KINECT2 false)">
     <include file="$(find pr2_bringup)/config/kinect2_bridge.launch"/>
   </group>
+
+  <!-- Start moving tilt laser -->
+  <node pkg="rosservice" type="rosservice" name="laser_tilt" args="call --wait laser_tilt_controller/set_periodic_cmd '{ command: { header: { stamp: 0 }, profile: 'linear' , period: 10 , amplitude: 1 , offset: 0 }}'"/>
+
+  <!-- Start PR2 head interface -->
+  <include file="$(find pr2_head)/launch/pr2_head.launch"/>
+
+  <!-- Start arm planning and pick and place pipeline -->
+  <include file="$(find pr2_moveit_config)/launch/move_group.launch"/>
+  <include file="$(find pr2_gripper_sensor_action pr2_gripper_sensor_actions.launch"/>
+  <include file="$(find pr2_picknplace)/launch/pick_place.launch"/>  
 
 </launch>
